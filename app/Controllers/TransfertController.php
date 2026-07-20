@@ -9,6 +9,7 @@ use App\Services\TransfertService;
 class TransfertController extends BaseController
 {
 
+
     protected TransfertService $service;
 
 
@@ -18,6 +19,7 @@ class TransfertController extends BaseController
 
         $this->service = new TransfertService();
     }
+
 
 
 
@@ -32,43 +34,85 @@ class TransfertController extends BaseController
 
 
 
+
+
     public function effectuer()
     {
 
 
         $numero =
-            $this->request->getPost('numero_receveur');
+            $this->request
+            ->getPost('numero_receveur');
+
 
 
         $montant =
-            (float)$this->request->getPost('montant');
+            (float)$this->request
+                ->getPost('montant');
+
+
+
+
+        /*
+         * Checkbox frais retrait
+         */
+
+        $inclureFraisRetrait =
+            $this->request
+            ->getPost('inclure_frais_retrait')
+            ? true
+            : false;
+
+
+
 
 
 
         $idUtilisateur =
-            session()->get('id_utilisateur');
+            session()
+            ->get('id_utilisateur');
+
+
+
 
 
 
 
         $result =
-            $this->service->effectuerTransfert(
+            $this->service
+            ->effectuerTransfert(
+
                 $idUtilisateur,
+
                 $numero,
-                $montant
+
+                $montant,
+
+                $inclureFraisRetrait
+
             );
+
+
+
+
 
 
 
         if (!$result['success']) {
 
+
             return redirect()
                 ->back()
+                ->withInput()
                 ->with(
                     'error',
                     $result['message']
                 );
         }
+
+
+
+
 
 
 

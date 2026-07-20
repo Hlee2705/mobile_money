@@ -52,6 +52,15 @@
                         min="1">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="checkbox-row">
+                    <input
+                        type="checkbox"
+                        name="inclure_frais_retrait"
+                        value="1">
+                    Inclure les frais de retrait
+                </label>
+            </div>
             <button type="submit" class="btn btn--primary btn--block">
                 Transférer
             </button>

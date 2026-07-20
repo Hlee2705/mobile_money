@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Compte;
 use App\Models\Utilisateur;
+use App\Models\Prefixe;
 use App\Models\HistoriqueTransaction;
 use App\Validations\TransfertValidation;
 
@@ -16,12 +17,13 @@ class TransfertService
 
     protected Utilisateur $utilisateurModel;
 
+    protected Prefixe $prefixeModel;
+
     protected HistoriqueTransaction $historiqueModel;
 
     protected TransfertValidation $validation;
 
     protected FraisService $fraisService;
-
 
 
 
@@ -32,14 +34,14 @@ class TransfertService
 
         $this->utilisateurModel = new Utilisateur();
 
+        $this->prefixeModel = new Prefixe();
+
         $this->historiqueModel = new HistoriqueTransaction();
 
         $this->validation = new TransfertValidation();
 
         $this->fraisService = new FraisService();
-
     }
-
 
 
 
@@ -48,12 +50,14 @@ class TransfertService
     public function effectuerTransfert(
         int $idUtilisateur,
         string $numeroReceveur,
-        float $montant
-    ): array
-    {
+        float $montant,
+        bool $inclureFraisRetrait = false
+    ): array {
 
 
-        // Validation montant
+        /*
+         * Validation montant
+         */
 
         $checkMontant =
             $this->validation
@@ -61,17 +65,18 @@ class TransfertService
 
 
 
-        if(!$checkMontant['success']){
+        if (!$checkMontant['success']) {
 
             return $checkMontant;
-
         }
 
 
 
 
 
-        // Validation numéro
+        /*
+         * Validation numéro
+         */
 
         $checkNumero =
             $this->validation
@@ -79,10 +84,9 @@ class TransfertService
 
 
 
-        if(!$checkNumero['success']){
+        if (!$checkNumero['success']) {
 
             return $checkNumero;
-
         }
 
 
@@ -90,7 +94,9 @@ class TransfertService
 
 
 
-        // Compte expéditeur
+        /*
+         * Recherche expéditeur
+         */
 
         $compteExpediteur =
             $this->compteModel
@@ -102,14 +108,12 @@ class TransfertService
 
 
 
-
-        if(!$compteExpediteur){
+        if (!$compteExpediteur) {
 
             return [
-                'success'=>false,
-                'message'=>'Compte expéditeur introuvable'
+                'success' => false,
+                'message' => 'Compte expéditeur introuvable'
             ];
-
         }
 
 
@@ -117,8 +121,9 @@ class TransfertService
 
 
 
-
-        // Recherche receveur
+        /*
+         * Recherche receveur
+         */
 
         $receveur =
             $this->utilisateurModel
@@ -130,14 +135,12 @@ class TransfertService
 
 
 
-
-        if(!$receveur){
+        if (!$receveur) {
 
             return [
-                'success'=>false,
-                'message'=>'Receveur introuvable'
+                'success' => false,
+                'message' => 'Receveur introuvable'
             ];
-
         }
 
 
@@ -145,8 +148,9 @@ class TransfertService
 
 
 
-
-        // Compte receveur
+        /*
+         * Recherche compte receveur
+         */
 
         $compteReceveur =
             $this->compteModel
@@ -158,14 +162,12 @@ class TransfertService
 
 
 
-
-        if(!$compteReceveur){
+        if (!$compteReceveur) {
 
             return [
-                'success'=>false,
-                'message'=>'Compte receveur introuvable'
+                'success' => false,
+                'message' => 'Compte receveur introuvable'
             ];
-
         }
 
 
@@ -174,10 +176,45 @@ class TransfertService
 
 
 
-        // Calcul frais transfert
-        // 3 = transfert
+        /*
+         * Vérification réseau receveur
+         */
 
-        $frais =
+        $prefixeReceveur =
+            substr($numeroReceveur, 0, 3);
+
+
+
+        $prefixe =
+            $this->prefixeModel
+            ->where(
+                'code',
+                $prefixeReceveur
+            )
+            ->first();
+
+
+
+        if (!$prefixe) {
+
+            return [
+                'success' => false,
+                'message' => 'Préfixe receveur inconnu'
+            ];
+        }
+
+
+
+
+
+
+
+        /*
+         * Frais transfert
+         * type_operation = 3
+         */
+
+        $fraisTransfert =
             $this->fraisService
             ->calculerFrais(
                 $montant,
@@ -188,24 +225,29 @@ class TransfertService
 
 
 
-        $totalDebit =
-            $montant + $frais;
+
+        /*
+         * Frais retrait inclus
+         *
+         * Seulement pour même opérateur
+         */
+
+        $fraisRetrait = 0;
 
 
 
+        if (
+            $inclureFraisRetrait
+            &&
+            $prefixe['type_prefixe'] == 'normal'
+        ) {
 
-
-
-
-        // Vérification solde
-
-        if($compteExpediteur['solde'] < $totalDebit){
-
-            return [
-                'success'=>false,
-                'message'=>'Solde insuffisant'
-            ];
-
+            $fraisRetrait =
+                $this->fraisService
+                ->calculerFrais(
+                    $montant,
+                    2
+                );
         }
 
 
@@ -214,13 +256,58 @@ class TransfertService
 
 
 
-        // Débit expéditeur
+        /*
+         * Total débité
+         */
+
+        $totalDebit =
+            $montant
+            +
+            $fraisTransfert
+            +
+            $fraisRetrait;
+
+
+
+
+
+
+
+        /*
+         * Vérification solde
+         */
+
+        if ($compteExpediteur['solde'] < $totalDebit) {
+
+            return [
+                'success' => false,
+                'message' => 'Solde insuffisant'
+            ];
+        }
+
+
+
+
+
+
+
+        /*
+         * Débit expéditeur
+         */
 
         $this->compteModel->update(
+
             $compteExpediteur['id'],
+
             [
-                'solde'=>$compteExpediteur['solde'] - $totalDebit
+
+                'solde' =>
+                $compteExpediteur['solde']
+                    -
+                    $totalDebit
+
             ]
+
         );
 
 
@@ -229,13 +316,23 @@ class TransfertService
 
 
 
-        // Crédit receveur
+        /*
+         * Crédit receveur
+         */
 
         $this->compteModel->update(
+
             $compteReceveur['id'],
+
             [
-                'solde'=>$compteReceveur['solde'] + $montant
+
+                'solde' =>
+                $compteReceveur['solde']
+                    +
+                    $montant
+
             ]
+
         );
 
 
@@ -244,21 +341,33 @@ class TransfertService
 
 
 
-        // Historique
+        /*
+         * Historique
+         */
 
         $this->historiqueModel->insert([
 
-            'id_utilisateur'=>$idUtilisateur,
 
-            'numero_receveur'=>$numeroReceveur,
+            'id_utilisateur' => $idUtilisateur,
 
-            'id_type_operation'=>3,
 
-            'montant'=>$montant,
+            'numero_receveur' => $numeroReceveur,
 
-            'frais'=>$frais,
 
-            'commission'=>0
+            'id_type_operation' => 3,
+
+
+            'montant' => $montant,
+
+
+            'frais' =>
+            $fraisTransfert
+                +
+                $fraisRetrait,
+
+
+            'commission' => 0
+
 
         ]);
 
@@ -270,14 +379,16 @@ class TransfertService
 
         return [
 
-            'success'=>true,
+            'success' => true,
 
-            'message'=>'Transfert effectué avec succès',
+            'message' => 'Transfert effectué avec succès',
 
-            'frais'=>$frais
+            'frais_transfert' => $fraisTransfert,
+
+            'frais_retrait' => $fraisRetrait,
+
+            'total_debite' => $totalDebit
 
         ];
-
     }
-
 }

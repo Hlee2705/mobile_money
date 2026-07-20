@@ -120,7 +120,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerTransfertsAutres->links('transfertsAutres', 'custom') ?>s
+            <?= $pagerTransfertsAutres->links('transfertsAutres', 'custom') ?>
         </div>
     </div>
 

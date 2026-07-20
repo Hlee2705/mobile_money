@@ -26,3 +26,6 @@ $routes->group('', function($routes){
     $routes->get('/logout', 'AuthController::logout');
 
 });
+// Eto ny routage momba ny prefixe
+$routes->get('/prefixe/create', 'PrefixeController::create');
+$routes->post('/prefixe/store', 'PrefixeController::store');

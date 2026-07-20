@@ -52,6 +52,12 @@ $routes->group('', function ($routes) {
     // Compte
     $routes->get('/solde', 'CompteController::solde');
 
+    // liste des clients
+    $routes->get(
+        '/clients',
+        'CompteController::listeClients'
+    );
+
     // Logout
     $routes->get('/logout', 'AuthController::logout');
 });

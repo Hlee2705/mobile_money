@@ -74,7 +74,7 @@
 
         <div class="nav-section-label">Compte</div>
         <?php if ($isOperateur): ?>
-          <a class="nav-link <?= $active === 'compte-clients' ? 'is-active' : '' ?>" href="<?= base_url('compte/clients') ?>">
+          <a class="nav-link <?= $active === 'compte-clients' ? 'is-active' : '' ?>" href="<?= base_url('clients') ?>">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <circle cx="12" cy="8" r="3.2" />
               <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5" />

@@ -29,3 +29,4 @@ $routes->group('', function($routes){
 // Eto ny routage momba ny prefixe
 $routes->get('/prefixe/create', 'PrefixeController::create');
 $routes->post('/prefixe/store', 'PrefixeController::store');
+$routes->get('/prefixes', 'PrefixeController::index');

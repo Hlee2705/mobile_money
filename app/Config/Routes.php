@@ -49,6 +49,9 @@ $routes->group('', function ($routes) {
         'RetraitController::effectuer'
     );
 
+    // Compte
+    $routes->get('/solde', 'CompteController::solde');
+
     // Logout
     $routes->get('/logout', 'AuthController::logout');
 });

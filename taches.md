@@ -2,7 +2,7 @@
 
 ## Prérequis
 
-+ [] Créer la base de données
++ [] Créer la base de données (valisoa)
 
 + [] Créer les tables : (valisoa)
     + [] role : id, libelle
@@ -14,7 +14,7 @@
     + [] frais : id, valeur, id_tranche, id_type_operation, date_insertion
     + [] historique_transaction : id, id_utilisateur, numero_receveur, id_type_operation, montant, frais, date_operation
 
-+ [] Insérer les données de configuration :
++ [] Insérer les données de configuration : (valisoa)
     + [] Les rôles
     + [] Les types d'opérations
     + [] Les préfixes
@@ -22,7 +22,7 @@
     + [] Les frais
     + [] Les données de test
 
-+ [] Créer les Models pour chaque table :
++ [] Créer les Models pour chaque table : (yoann)
     + [] RoleModel
     + [] PrefixeModel
     + [] UtilisateurModel
@@ -32,10 +32,10 @@
     + [] FraisModel
     + [] HistoriqueTransactionModel
 
-+ [] Vérifier la connexion à la base de données
++ [] Vérifier la connexion à la base de données (valisoa)
 
 
-## Cote operateur 
+## Cote operateur (yoann)
 + [] CRUD prefixe valable
     + [] création 
     + [] liste
@@ -60,7 +60,7 @@
     + [] nombre d'operation par type d'operation 
     + [] solde
 
-## Cote client
+## Cote client (valisoa)
 + [] Connection efa mande
 + [] Boutons : 
     + [] faire un dépot

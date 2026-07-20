@@ -4,7 +4,7 @@
 
 + [] Créer la base de données
 
-+ [] Créer les tables :
++ [] Créer les tables : (valisoa)
     + [] role : id, libelle
     + [] prefixe : id, code, libelle
     + [] utilisateur : id, numero, id_role
@@ -32,19 +32,54 @@
     + [] FraisModel
     + [] HistoriqueTransactionModel
 
-+ [] Configurer les routes
-
-+ [] Créer un BaseController commun (si nécessaire)
-
-+ [] Créer les layouts :
-    + [] Layout opérateur
-    + [] Layout client
-
 + [] Vérifier la connexion à la base de données
 
-+ [] Tester les Models (CRUD de base)
 
 ## Cote operateur 
++ [] CRUD prefixe valable
+    + [] création 
+    + [] liste
+    + [] modification
+    + [] suppression
 
++ [] Insertion des parametres type d'operations 
+
++ [] CRUD baremes de frais avec choix du type d'operations 
+    + [] création 
+    + [] liste
+    + [] modification
+    + [] suppression
+
++ [] gestion de gain via frais 
+    + [] debiter au client 
+        + [] frais de transfert lors du transfert 
+        + [] frais de retrait lors du retrait 
+    
++ [] gestion des comptes client : 
+    + [] liste
+    + [] nombre d'operation par type d'operation 
+    + [] solde
 
 ## Cote client
++ [] Connection efa mande
++ [] Boutons : 
+    + [] faire un dépot
+        + [] formulaire
+
+    + [] faire un retrait
+        + [] formulaire
+
+    + [] faire un transfert
+        + [] formulaire
+
++ [] calculer le solde:
+    + [] à chaque operation, modifier la valeur du solde par transaction dans la base de données 
+    + [] afficher le solde
+
++ [] afficher les historiques 
+    + [] historique générale (mouvement de toutes les operations)
+    + [] historique par operation 
+
+## LOGIN
++ [] si le numero n'existe pas encore, insérer dans la base 
+

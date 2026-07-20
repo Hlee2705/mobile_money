@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Dépôt</title>
-
-</head>
-
-
-<body>
+<?= $this->include('includes/header') ?>
 
 
 <h1>Effectuer un dépôt</h1>
 
 
-<?php if(session()->getFlashdata('error')): ?>
+<?php if (session()->getFlashdata('error')): ?>
 
     <p style="color:red">
         <?= session()->getFlashdata('error') ?>
@@ -25,7 +13,7 @@
 <?php endif; ?>
 
 
-<?php if(session()->getFlashdata('success')): ?>
+<?php if (session()->getFlashdata('success')): ?>
 
     <p style="color:green">
         <?= session()->getFlashdata('success') ?>
@@ -43,12 +31,11 @@
     </label>
 
 
-    <input 
+    <input
         type="number"
         name="montant"
         min="1"
-        required
-    >
+        required>
 
 
     <br><br>
@@ -71,7 +58,4 @@
 </a>
 
 
-
-</body>
-
-</html>
+<?= $this->include('includes/footer') ?>

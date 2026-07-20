@@ -1,60 +1,50 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>Retrait</title>
-
-</head>
-
-
-<body>
+<?= $this->include('includes/header') ?>
 
 
 <h1>Effectuer un retrait</h1>
 
 
-<?php if(session()->getFlashdata('error')): ?>
+<?php if (session()->getFlashdata('error')): ?>
 
-<p style="color:red">
-<?= session()->getFlashdata('error') ?>
-</p>
+    <p style="color:red">
+        <?= session()->getFlashdata('error') ?>
+    </p>
 
 <?php endif; ?>
 
 
-<?php if(session()->getFlashdata('success')): ?>
+<?php if (session()->getFlashdata('success')): ?>
 
-<p style="color:green">
-<?= session()->getFlashdata('success') ?>
-</p>
+    <p style="color:green">
+        <?= session()->getFlashdata('success') ?>
+    </p>
 
 <?php endif; ?>
 
 
 
 <form method="post"
-action="<?= base_url('/retrait/effectuer') ?>">
+    action="<?= base_url('/retrait/effectuer') ?>">
 
 
-<label>
-Montant :
-</label>
+    <label>
+        Montant :
+    </label>
 
 
-<input 
-type="number"
-name="montant"
-required>
+    <input
+        type="number"
+        name="montant"
+        required>
 
 
 
-<br><br>
+    <br><br>
 
 
-<button>
-Retirer
-</button>
+    <button>
+        Retirer
+    </button>
 
 
 </form>
@@ -65,10 +55,7 @@ Retirer
 
 
 <a href="<?= base_url('/dashboard') ?>">
-Retour
+    Retour
 </a>
 
-
-</body>
-
-</html>
+<?= $this->include('includes/footer') ?>

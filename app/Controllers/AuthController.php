@@ -40,4 +40,11 @@ class AuthController extends BaseController
 
         return redirect()->to('/dashboard');
     }
+
+    public function logout()
+    {
+        session()->destroy();
+
+        return redirect()->to('/login');
+    }
 }

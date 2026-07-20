@@ -38,6 +38,7 @@ class AuthController extends BaseController
         }
 
 
+
         return redirect()->to('/dashboard');
     }
 

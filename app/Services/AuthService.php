@@ -43,7 +43,7 @@ class AuthService
         $prefixe = $this->prefixeModel
             ->where(
                 'code',
-                substr($numero,0,3)
+                substr($numero, 0, 3)
             )
             ->first();
 
@@ -52,8 +52,8 @@ class AuthService
         if (!$prefixe) {
 
             return [
-                'success'=>false,
-                'message'=>'Préfixe non autorisé'
+                'success' => false,
+                'message' => 'Préfixe non autorisé'
             ];
         }
 
@@ -61,31 +61,30 @@ class AuthService
 
         // Recherche utilisateur
         $utilisateur = $this->utilisateurModel
-            ->where('numero',$numero)
+            ->where('numero', $numero)
             ->first();
 
 
 
-        if (!$utilisateur){
+        if (!$utilisateur) {
 
             return [
-                'success'=>false,
-                'message'=>'Utilisateur inexistant'
+                'success' => false,
+                'message' => 'Utilisateur inexistant'
             ];
         }
 
 
         session()->set([
-            'id_utilisateur'=>$utilisateur['id'],
-            'id_role'=>$utilisateur['id_role'],
-            'numero'=>$numero
+            'logged_in' => true,
+            'id_utilisateur' => $utilisateur['id'],
+            'id_role' => $utilisateur['id_role'],
+            'numero' => $utilisateur['numero']
         ]);
 
-
         return [
-            'success'=>true,
-            'utilisateur'=>$utilisateur
+            'success' => true,
+            'utilisateur' => $utilisateur
         ];
-
     }
 }

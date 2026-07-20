@@ -9,17 +9,20 @@ $routes->get('/', 'Home::index');
 
 $routes->get('/test', 'Test::index');
 
+
 $routes->group('', function($routes){
 
-    // Affichage page login
+    // Login
     $routes->get('/login', 'AuthController::index');
 
-
-    // Traitement login
     $routes->post('/login', 'AuthController::login');
 
 
-    // Déconnexion
+    // Dashboard
+    $routes->get('/dashboard', 'DashboardController::index');
+
+
+    // Logout
     $routes->get('/logout', 'AuthController::logout');
 
 });

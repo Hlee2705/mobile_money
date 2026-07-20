@@ -45,9 +45,11 @@
                 <thead>
 
                     <tr>
-                        <th style="width:120px;">ID</th>
                         <th>Montant minimum</th>
                         <th>Montant maximum</th>
+                        <th>Frais retrait</th>
+                        <th>Frais transfert</th>
+                        <th>Frais total transaction</th>
                     </tr>
 
                 </thead>
@@ -55,7 +57,7 @@
 
                 <tbody>
 
-                    <?php if (empty($tranches)): ?>
+                    <?php if (empty($fraisTotal)): ?>
 
                         <tr>
                             <td colspan="3" style="text-align:center;">
@@ -67,22 +69,28 @@
                     <?php else: ?>
 
 
-                        <?php foreach ($tranches as $tranche): ?>
+                        <?php foreach ($fraisTotal as $tranche): ?>
 
                             <tr>
-
-                                <td class="mono cell-primary">
-                                    <?= esc($tranche['id']) ?>
-                                </td>
-
 
                                 <td>
                                     <?= number_format($tranche['min'], 0, ',', ' ') ?> Ar
                                 </td>
 
-
                                 <td>
                                     <?= number_format($tranche['max'], 0, ',', ' ') ?> Ar
+                                </td>
+
+                                <td>
+                                    <?= number_format($tranche['frais_retrait'], 0, ',', ' ') ?> Ar
+                                </td>
+
+                                <td>
+                                    <?= number_format($tranche['frais_transfert'], 0, ',', ' ') ?> Ar
+                                </td>
+
+                                <td class="cell-primary">
+                                    <?= number_format($tranche['frais_total'], 0, ',', ' ') ?> Ar
                                 </td>
 
 

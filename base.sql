@@ -108,6 +108,60 @@ CREATE TABLE historique_transaction (
         ON DELETE RESTRICT
 );
 
+CREATE VIEW vue_frais_bareme AS
+
+SELECT
+    t.id AS id_tranche,
+    t.min,
+    t.max,
+
+    MAX(
+        CASE 
+            WHEN f.id_type_operation = 2 
+            THEN f.valeur 
+        END
+    ) AS frais_retrait,
+
+    MAX(
+        CASE 
+            WHEN f.id_type_operation = 3 
+            THEN f.valeur 
+        END
+    ) AS frais_transfert,
+
+    (
+        COALESCE(
+            MAX(
+                CASE 
+                    WHEN f.id_type_operation = 2 
+                    THEN f.valeur 
+                END
+            ),0
+        )
+        +
+        COALESCE(
+            MAX(
+                CASE 
+                    WHEN f.id_type_operation = 3 
+                    THEN f.valeur 
+                END
+            ),0
+        )
+    ) AS frais_total
+
+
+FROM tranche t
+
+LEFT JOIN frais f
+ON f.id_tranche = t.id
+
+GROUP BY 
+    t.id,
+    t.min,
+    t.max
+
+ORDER BY t.min ASC;
+
 -- =====================================================
 -- INSERT : roles
 -- =====================================================

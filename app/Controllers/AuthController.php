@@ -39,7 +39,7 @@ class AuthController extends BaseController
 
 
 
-        return redirect()->to('/dashboard');
+        return redirect()->to('/prefixe/create');
     }
 
     public function logout()

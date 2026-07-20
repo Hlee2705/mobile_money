@@ -1,0 +1,189 @@
+-- Activation obligatoire des clés étrangères sur SQLite
+PRAGMA foreign_keys = ON;
+
+-- =====================================================
+-- TABLE : role
+-- =====================================================
+CREATE TABLE role (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    libelle TEXT NOT NULL UNIQUE
+);
+
+-- =====================================================
+-- TABLE : prefixe
+-- =====================================================
+CREATE TABLE prefixe (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    libelle TEXT NOT NULL
+);
+
+-- =====================================================
+-- TABLE : utilisateur
+-- =====================================================
+CREATE TABLE utilisateur (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    numero TEXT NOT NULL UNIQUE,
+    id_role INTEGER NOT NULL,
+
+    FOREIGN KEY (id_role)
+        REFERENCES role(id)
+        ON DELETE RESTRICT
+);
+
+-- =====================================================
+-- TABLE : compte
+-- =====================================================
+CREATE TABLE compte (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_utilisateur INTEGER NOT NULL UNIQUE,
+    solde REAL NOT NULL DEFAULT 0,
+
+    FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id)
+        ON DELETE CASCADE
+);
+
+-- =====================================================
+-- TABLE : type_operation
+-- =====================================================
+CREATE TABLE type_operation (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    libelle TEXT NOT NULL UNIQUE
+);
+
+-- =====================================================
+-- TABLE : tranche
+-- =====================================================
+CREATE TABLE tranche (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    min REAL NOT NULL,
+    max REAL NOT NULL,
+    date_insertion TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- TABLE : frais
+-- =====================================================
+CREATE TABLE frais (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    valeur REAL NOT NULL,
+    id_tranche INTEGER NOT NULL,
+    id_type_operation INTEGER NOT NULL,
+    date_insertion TEXT DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_tranche)
+        REFERENCES tranche(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_type_operation)
+        REFERENCES type_operation(id)
+        ON DELETE RESTRICT
+);
+
+-- =====================================================
+-- TABLE : historique_transaction
+-- =====================================================
+CREATE TABLE historique_transaction (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    id_utilisateur INTEGER NOT NULL,
+
+    numero_receveur TEXT,
+
+    id_type_operation INTEGER NOT NULL,
+
+    montant REAL NOT NULL,
+
+    frais REAL NOT NULL DEFAULT 0,
+
+    date_operation TEXT DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id)
+        ON DELETE RESTRICT,
+
+    FOREIGN KEY (id_type_operation)
+        REFERENCES type_operation(id)
+        ON DELETE RESTRICT
+);
+
+-- =====================================================
+-- INSERT : roles
+-- =====================================================
+INSERT INTO role (libelle)
+VALUES
+('operateur'),
+('client');
+
+-- =====================================================
+-- INSERT : types d'opérations
+-- =====================================================
+INSERT INTO type_operation (libelle)
+VALUES
+('depot'),
+('retrait'),
+('transfert');
+
+-- =====================================================
+-- INSERT : préfixes autorisés
+-- =====================================================
+INSERT INTO prefixe (code, libelle)
+VALUES
+('033', 'Opérateur Principal (033)'),
+('037', 'Opérateur Principal (037)');
+
+-- =====================================================
+-- INSERT : tranches
+-- =====================================================
+INSERT INTO tranche (id, min, max)
+VALUES
+(1,100,1000),
+(2,1001,5000),
+(3,5001,10000),
+(4,10001,25000),
+(5,25001,50000),
+(6,50001,100000),
+(7,100001,250000),
+(8,250001,500000),
+(9,500001,1000000),
+(10,1000001,2000000);
+
+-- =====================================================
+-- INSERT : frais (Retrait)
+-- =====================================================
+INSERT INTO frais (valeur,id_tranche,id_type_operation)
+VALUES
+(50,1,2),
+(50,2,2),
+(100,3,2),
+(200,4,2),
+(400,5,2),
+(800,6,2),
+(1500,7,2),
+(1500,8,2),
+(2500,9,2),
+(3000,10,2);
+
+-- =====================================================
+-- UTILISATEURS DE TEST
+-- =====================================================
+
+-- Opérateur
+INSERT INTO utilisateur(numero,id_role)
+VALUES
+('0330000000',1);
+
+-- Client
+INSERT INTO utilisateur(numero,id_role)
+VALUES
+('0371234567',2);
+
+-- =====================================================
+-- COMPTES DE TEST
+-- =====================================================
+
+INSERT INTO compte(id_utilisateur,solde)
+VALUES
+(1,0),
+(2,500000);

@@ -45,7 +45,7 @@
           </svg>
           <span class="nav-link__label">Nouveau</span>
         </a>
-        <a class="nav-link <?= $active === 'frais-baremes' ? 'is-active' : '' ?>" href="<?= base_url('frais/baremes') ?>">
+        <a class="nav-link <?= $active === 'frais-baremes' ? 'is-active' : '' ?>" href="<?= base_url('frais') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M4 19V9M12 19V5M20 19v-7" />
           </svg>

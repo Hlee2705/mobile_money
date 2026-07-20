@@ -30,3 +30,6 @@ $routes->group('', function($routes){
 $routes->get('/prefixe/create', 'PrefixeController::create');
 $routes->post('/prefixe/store', 'PrefixeController::store');
 $routes->get('/prefixes', 'PrefixeController::index');
+
+// Eto ny routage momba ny frais sy tranche
+$routes->get('/frais', 'FraisController::index');

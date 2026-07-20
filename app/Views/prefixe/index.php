@@ -43,7 +43,6 @@
 
                     <tr>
                         <th style="width:180px;">Préfixe</th>
-                        <th>Informations</th>
                     </tr>
 
                 </thead>
@@ -66,10 +65,6 @@
 
                                 <td class="mono cell-primary">
                                     <?= esc($prefixe['code']) ?>
-                                </td>
-
-                                <td>
-                                    <?= esc($prefixe['libelle']) ?>
                                 </td>
 
                             </tr>

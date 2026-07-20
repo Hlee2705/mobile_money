@@ -16,132 +16,34 @@
 <body>
 
 
-    <div class="app-shell">
+<div class="login-page">
 
 
-        <div style="
-width:100%;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:var(--color-bg-page);
-">
+    <div class="login-card card">
 
 
-            <div class="card" style="
-width:420px;
-">
+        <!-- Logo + titre -->
+        <div class="card__header login-header">
 
 
-                <div class="card__header" style="text-align:center;">
+            <div class="login-brand">
+
+                <div class="sidebar__brand-mark login-logo">
+                    TP
+                </div>
 
 
-                    <div class="sidebar__brand-mark"
-                        style="
-margin:auto;
-width:60px;
-height:60px;
-font-size:22px;
-">
+                <div>
 
-                        TP
-
-                    </div>
-
-
-                    <h2 style="margin-top:20px;">
-                        Bienvenue sur TanaPay
+                    <h2>
+                        TanaPay
                     </h2>
 
-
-                    <p class="text-muted text-sm">
-                        Connectez-vous avec votre numéro de téléphone
+                    <p class="text-sm text-muted">
+                        Mobile Money sécurisé
                     </p>
 
-
                 </div>
-
-
-
-                <div class="card__body">
-
-
-                    <?php if (session()->getFlashdata('error')): ?>
-
-                        <div class="alert alert--danger">
-
-                            <div>
-                                <?= session()->getFlashdata('error') ?>
-                            </div>
-
-                        </div>
-
-                    <?php endif; ?>
-
-
-
-                    <form method="post" action="<?= base_url('/login') ?>">
-
-
-                        <div class="form-group">
-
-                            <label class="form-label">
-                                Numéro téléphone
-                            </label>
-
-
-                            <div class="input-affix">
-
-                                <span class="affix">
-                                    +261
-                                </span>
-
-
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    name="numero"
-                                    value="<?= old('numero') ?>"
-                                    placeholder="0330000000">
-
-
-                            </div>
-
-
-                            <div class="form-hint">
-                                Exemple : 0330000000 ou 0371234567
-                            </div>
-
-
-                        </div>
-
-
-
-                        <button
-                            class="btn btn--primary"
-                            style="width:100%;">
-
-                            Se connecter
-
-                        </button>
-
-
-
-                    </form>
-
-
-                </div>
-
-
-                <div class="card__footer text-center">
-
-                    <span class="text-xs text-muted">
-                        TanaPay — Mobile Money
-                    </span>
-
-                </div>
-
 
             </div>
 
@@ -149,7 +51,120 @@ font-size:22px;
         </div>
 
 
+
+        <!-- Formulaire -->
+        <div class="card__body">
+
+
+            <div class="login-message">
+
+                <h3>
+                    Bienvenue
+                </h3>
+
+                <p class="text-muted text-sm">
+                    Entrez votre numéro de téléphone pour accéder à votre compte.
+                </p>
+
+            </div>
+
+
+
+            <?php if (session()->getFlashdata('error')): ?>
+
+                <div class="alert alert--danger">
+
+                    <?= session()->getFlashdata('error') ?>
+
+                </div>
+
+            <?php endif; ?>
+
+
+
+            <form method="post" action="<?= base_url('/login') ?>">
+
+
+                <div class="form-group">
+
+
+                    <label class="form-label">
+                        Numéro de téléphone
+                    </label>
+
+
+
+                    <div class="input-affix">
+
+
+                        <span class="affix">
+                            +261
+                        </span>
+
+
+                        <input
+                            type="text"
+                            name="numero"
+                            class="form-control"
+                            placeholder="0330000000"
+                            value="<?= old('numero') ?>"
+                            autocomplete="tel"
+                            required
+                        >
+
+
+                    </div>
+
+
+
+                    <div class="form-hint">
+
+                        Exemple : 0330000000 ou 0371234567
+
+                    </div>
+
+
+                </div>
+
+
+
+                <button 
+                    type="submit"
+                    class="btn btn--primary btn--block">
+
+                    Se connecter
+
+                </button>
+
+
+
+            </form>
+
+
+        </div>
+
+
+
+
+        <!-- Footer -->
+
+        <div class="card__footer login-footer">
+
+            <span class="text-xs text-muted">
+
+                TanaPay © <?= date('Y') ?>
+
+            </span>
+
+
+        </div>
+
+
     </div>
+
+
+
+</div>
 
 
 </body>

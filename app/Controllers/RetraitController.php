@@ -18,7 +18,6 @@ class RetraitController extends BaseController
     {
 
         $this->service = new RetraitService();
-
     }
 
 
@@ -29,7 +28,6 @@ class RetraitController extends BaseController
     {
 
         return view('client/retrait');
-
     }
 
 
@@ -61,7 +59,7 @@ class RetraitController extends BaseController
 
 
 
-        if(!$result['success']){
+        if (!$result['success']) {
 
 
             return redirect()
@@ -70,7 +68,6 @@ class RetraitController extends BaseController
                     'error',
                     $result['message']
                 );
-
         }
 
 
@@ -78,15 +75,10 @@ class RetraitController extends BaseController
 
 
         return redirect()
-            ->to('/dashboard')
+            ->to('/retrait')
             ->with(
                 'success',
                 $result['message']
             );
-
-
     }
-
-
-
 }

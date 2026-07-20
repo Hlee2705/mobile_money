@@ -1,61 +1,62 @@
 <?= $this->include('includes/header') ?>
 
-
-<h1>Effectuer un dépôt</h1>
-
+<div style="text-align:center; margin-bottom: var(--space-6);">
+    <span class="eyebrow">
+        Opération
+    </span>
+    <h1>
+        Effectuer un dépôt
+    </h1>
+    <p class="text-muted text-sm" style="margin:0;">
+        Créditez votre compte ValsMobile en quelques secondes.
+    </p>
+</div>
 
 <?php if (session()->getFlashdata('error')): ?>
-
-    <p style="color:red">
-        <?= session()->getFlashdata('error') ?>
-    </p>
-
+    <div class="alert alert--danger" style="margin-bottom: var(--space-5);">
+        <div><?= session()->getFlashdata('error') ?></div>
+    </div>
 <?php endif; ?>
-
-
 <?php if (session()->getFlashdata('success')): ?>
-
-    <p style="color:green">
-        <?= session()->getFlashdata('success') ?>
-    </p>
-
+    <div class="alert alert--success" style="margin-bottom: var(--space-5);">
+        <div><?= session()->getFlashdata('success') ?></div>
+    </div>
 <?php endif; ?>
 
+<div class="card" style="max-width:480px; margin:0 auto;">
+    <div class="card__body">
+        <form method="post" action="<?= base_url('/depot/effectuer') ?>">
+            <div class="form-group">
+                <label class="form-label">
+                    Montant
+                </label>
+                <div class="input-affix">
+                    <span class="affix affix--right">
+                        Ar
+                    </span>
+                    <input
+                        type="number"
+                        name="montant"
+                        class="form-control"
+                        placeholder="0"
+                        min="1"
+                        required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn--primary btn--block">
+                Déposer
+            </button>
+        </form>
+    </div>
+</div>
 
-
-<form method="post" action="<?= base_url('/depot/effectuer') ?>">
-
-
-    <label>
-        Montant :
-    </label>
-
-
-    <input
-        type="number"
-        name="montant"
-        min="1"
-        required>
-
-
-    <br><br>
-
-
-    <button type="submit">
-        Déposer
-    </button>
-
-
-</form>
-
-
-
-<br>
-
-
-<a href="<?= base_url('/dashboard') ?>">
-    Retour dashboard
-</a>
-
+<div style="text-align:center; margin-top: var(--space-4);">
+    <a href="<?= base_url('/dashboard') ?>" class="btn btn--ghost btn--sm">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Retour dashboard
+    </a>
+</div>
 
 <?= $this->include('includes/footer') ?>

@@ -113,7 +113,7 @@
       <div class="topbar">
         <div class="row" style="gap:10px;">
           <div class="sidebar__brand-mark" style="width:30px;height:30px;font-size:12px;">TP</div>
-          <strong style="color:#fff;font-family:var(--font-display);font-size:14px;">TanaPay</strong>
+          <strong style="color:#fff;font-family:var(--font-display);font-size:14px;">ValsMobile</strong>
         </div>
         <div class="topbar__icons">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

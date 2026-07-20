@@ -17,7 +17,6 @@ class DepotController extends BaseController
     {
 
         $this->depotService = new DepotService();
-
     }
 
 
@@ -27,7 +26,6 @@ class DepotController extends BaseController
     {
 
         return view('client/depot');
-
     }
 
 
@@ -55,7 +53,7 @@ class DepotController extends BaseController
 
 
 
-        if(!$result['success']){
+        if (!$result['success']) {
 
             return redirect()
                 ->back()
@@ -63,20 +61,15 @@ class DepotController extends BaseController
                     'error',
                     $result['message']
                 );
-
         }
 
 
 
         return redirect()
-            ->to('/dashboard')
+            ->to('/depot')
             ->with(
                 'success',
                 $result['message']
             );
-
-
     }
-
-
 }

@@ -17,7 +17,6 @@ class TransfertController extends BaseController
     {
 
         $this->service = new TransfertService();
-
     }
 
 
@@ -27,7 +26,6 @@ class TransfertController extends BaseController
     {
 
         return view('client/transfert');
-
     }
 
 
@@ -62,7 +60,7 @@ class TransfertController extends BaseController
 
 
 
-        if(!$result['success']){
+        if (!$result['success']) {
 
             return redirect()
                 ->back()
@@ -70,20 +68,15 @@ class TransfertController extends BaseController
                     'error',
                     $result['message']
                 );
-
         }
 
 
 
         return redirect()
-            ->to('/dashboard')
+            ->to('/transfert')
             ->with(
                 'success',
                 $result['message']
             );
-
-
     }
-
-
 }

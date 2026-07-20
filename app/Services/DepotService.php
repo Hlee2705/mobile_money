@@ -112,15 +112,6 @@ class DepotService
 
         ]);
 
-
-        var_dump($resultInsert);
-        var_dump($this->historiqueModel->errors());
-
-        exit;
-
-
-
-
         return [
             'success' => true,
             'message' => 'Dépôt effectué avec succès',

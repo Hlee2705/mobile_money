@@ -62,3 +62,6 @@ $routes->get('/prefixes', 'PrefixeController::index');
 
 // Eto ny routage momba ny frais sy tranche
 $routes->get('/frais', 'FraisController::index');
+
+// Eto ny routage momba ny gains
+$routes->get('/gains', 'GainsController::index');

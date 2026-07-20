@@ -19,24 +19,58 @@ class HistoriqueTransactionService
         $this->vueRetrait = new VueRetrait();
     }
 
-    public function listerTransfertsNormaux()
+    public function listerTransfertsNormaux(int $perPage = 15)
     {
-        return $this->vueTransfertNormal
+        $data = $this->vueTransfertNormal
             ->orderBy('date_operation', 'DESC')
-            ->findAll();
+            ->paginate($perPage, 'transfertsNormaux');
+
+        return ['data' => $data, 'pager' => $this->vueTransfertNormal->pager];
     }
 
-    public function listerTransfertsAutres()
+    public function listerTransfertsAutres(int $perPage = 15)
     {
-        return $this->vueTransfertAutre
+        $data = $this->vueTransfertAutre
             ->orderBy('date_operation', 'DESC')
-            ->findAll();
+            ->paginate($perPage, 'transfertsAutres');
+
+        return ['data' => $data, 'pager' => $this->vueTransfertAutre->pager];
     }
 
-    public function listerRetraits()
+    public function listerRetraits(int $perPage = 15)
     {
-        return $this->vueRetrait
+        $data = $this->vueRetrait
             ->orderBy('date_operation', 'DESC')
-            ->findAll();
+            ->paginate($perPage, 'retraits');
+
+        return ['data' => $data, 'pager' => $this->vueRetrait->pager];
+    }
+
+    public function totalFraisTransfertNormal()
+    {
+        return (float) ($this->vueTransfertNormal
+            ->selectSum('frais')
+            ->first()['frais'] ?? 0);
+    }
+
+    public function totalFraisTransfertAutre()
+    {
+        return (float) ($this->vueTransfertAutre
+            ->selectSum('frais')
+            ->first()['frais'] ?? 0);
+    }
+
+    public function totalCommissionTransfertAutre()
+    {
+        return (float) ($this->vueTransfertAutre
+            ->selectSum('commission')
+            ->first()['commission'] ?? 0);
+    }
+
+    public function totalFraisRetrait()
+    {
+        return (float) ($this->vueRetrait
+            ->selectSum('frais')
+            ->first()['frais'] ?? 0);
     }
 }

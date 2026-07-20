@@ -20,6 +20,9 @@ class TransfertService
 
     protected TransfertValidation $validation;
 
+    protected FraisService $fraisService;
+
+
 
 
     public function __construct()
@@ -33,7 +36,10 @@ class TransfertService
 
         $this->validation = new TransfertValidation();
 
+        $this->fraisService = new FraisService();
+
     }
+
 
 
 
@@ -50,7 +56,9 @@ class TransfertService
         // Validation montant
 
         $checkMontant =
-            $this->validation->validerMontant($montant);
+            $this->validation
+            ->validerMontant($montant);
+
 
 
         if(!$checkMontant['success']){
@@ -62,10 +70,13 @@ class TransfertService
 
 
 
+
         // Validation numéro
 
         $checkNumero =
-            $this->validation->validerNumeroReceveur($numeroReceveur);
+            $this->validation
+            ->validerNumeroReceveur($numeroReceveur);
+
 
 
         if(!$checkNumero['success']){
@@ -73,6 +84,7 @@ class TransfertService
             return $checkNumero;
 
         }
+
 
 
 
@@ -90,6 +102,7 @@ class TransfertService
 
 
 
+
         if(!$compteExpediteur){
 
             return [
@@ -100,16 +113,6 @@ class TransfertService
         }
 
 
-
-
-        if($compteExpediteur['solde'] < $montant){
-
-            return [
-                'success'=>false,
-                'message'=>'Solde insuffisant'
-            ];
-
-        }
 
 
 
@@ -127,6 +130,7 @@ class TransfertService
 
 
 
+
         if(!$receveur){
 
             return [
@@ -135,6 +139,8 @@ class TransfertService
             ];
 
         }
+
+
 
 
 
@@ -152,6 +158,7 @@ class TransfertService
 
 
 
+
         if(!$compteReceveur){
 
             return [
@@ -165,26 +172,72 @@ class TransfertService
 
 
 
-        // Retrait expéditeur
+
+
+        // Calcul frais transfert
+        // 3 = transfert
+
+        $frais =
+            $this->fraisService
+            ->calculerFrais(
+                $montant,
+                3
+            );
+
+
+
+
+
+        $totalDebit =
+            $montant + $frais;
+
+
+
+
+
+
+
+        // Vérification solde
+
+        if($compteExpediteur['solde'] < $totalDebit){
+
+            return [
+                'success'=>false,
+                'message'=>'Solde insuffisant'
+            ];
+
+        }
+
+
+
+
+
+
+
+        // Débit expéditeur
 
         $this->compteModel->update(
             $compteExpediteur['id'],
             [
-                'solde'=>$compteExpediteur['solde']-$montant
+                'solde'=>$compteExpediteur['solde'] - $totalDebit
             ]
         );
 
 
 
 
-        // Ajout receveur
+
+
+
+        // Crédit receveur
 
         $this->compteModel->update(
             $compteReceveur['id'],
             [
-                'solde'=>$compteReceveur['solde']+$montant
+                'solde'=>$compteReceveur['solde'] + $montant
             ]
         );
+
 
 
 
@@ -203,9 +256,13 @@ class TransfertService
 
             'montant'=>$montant,
 
-            'frais'=>0
+            'frais'=>$frais,
+
+            'commission'=>0
 
         ]);
+
+
 
 
 
@@ -215,12 +272,12 @@ class TransfertService
 
             'success'=>true,
 
-            'message'=>'Transfert effectué avec succès'
+            'message'=>'Transfert effectué avec succès',
+
+            'frais'=>$frais
 
         ];
 
-
     }
-
 
 }

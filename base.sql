@@ -43,7 +43,8 @@ CREATE TABLE role (
 CREATE TABLE prefixe (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,
-    libelle TEXT NOT NULL
+    type_prefixe TEXT NOT NULL
+        CHECK(type_prefixe IN ('normal','autre'))
 );
 
 -- =====================================================
@@ -190,6 +191,16 @@ GROUP BY
 
 ORDER BY t.min ASC;
 
+
+-- table config
+CREATE TABLE config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    valeur REAL NOT NULL,
+
+    date_insertion TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
 -- =====================================================
 -- INSERT : roles
 -- =====================================================
@@ -210,10 +221,16 @@ VALUES
 -- =====================================================
 -- INSERT : préfixes autorisés
 -- =====================================================
-INSERT INTO prefixe (code, libelle)
+INSERT INTO prefixe(code, type_prefixe)
 VALUES
-('033', 'Opérateur Principal (033)'),
-('037', 'Opérateur Principal (037)');
+('039','normal'),
+('040','normal'),
+('032','autre'),
+('031','autre'),
+('034','autre'),
+('038','autre'),
+('033','autre'),
+('037','autre');
 
 -- =====================================================
 -- INSERT : tranches
@@ -298,3 +315,4 @@ VALUES
 INSERT INTO compte(id_utilisateur, solde)
 VALUES
 (3, 200000);
+

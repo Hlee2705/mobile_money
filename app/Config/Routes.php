@@ -36,6 +36,18 @@ $routes->group('', function ($routes) {
         'TransfertController::effectuer'
     );
 
+    // Retrait
+
+    $routes->get(
+        '/retrait',
+        'RetraitController::index'
+    );
+
+
+    $routes->post(
+        '/retrait/effectuer',
+        'RetraitController::effectuer'
+    );
 
     // Logout
     $routes->get('/logout', 'AuthController::logout');

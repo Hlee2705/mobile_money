@@ -1,12 +1,13 @@
-
 PRAGMA foreign_keys = OFF;
 
-
--- Suppression de la vue
+-- =====================================================
+-- SUPPRESSION DES VUES
+-- =====================================================
 DROP VIEW IF EXISTS vue_frais_bareme;
 
-
--- Suppression des tables
+-- =====================================================
+-- SUPPRESSION DES TABLES
+-- =====================================================
 DROP TABLE IF EXISTS historique_transaction;
 
 DROP TABLE IF EXISTS frais;
@@ -19,12 +20,11 @@ DROP TABLE IF EXISTS compte;
 
 DROP TABLE IF EXISTS utilisateur;
 
+DROP TABLE IF EXISTS config;
+
 DROP TABLE IF EXISTS prefixe;
 
 DROP TABLE IF EXISTS role;
-
-
-PRAGMA foreign_keys = ON;
 
 -- Activation obligatoire des clés étrangères sur SQLite
 PRAGMA foreign_keys = ON;

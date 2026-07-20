@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Prefixe;
-use App\Validation\PrefixeValidation;
+use App\Validations\PrefixeValidation;
 
 class PrefixeService
 {

@@ -55,13 +55,13 @@
                                 type="text"
                                 name="numero"
                                 class="form-control"
-                                placeholder="0330000000"
+                                placeholder="0390000000"
                                 value="<?= old('numero') ?>"
                                 autocomplete="tel"
                                 required>
                         </div>
                         <div class="form-hint">
-                            Exemple : 0330000000 ou 0371234567
+                            Exemple : 0390000000 ou 0401234567
                         </div>
                     </div>
                     <button

@@ -206,6 +206,13 @@ CREATE TABLE config (
 );
 
 -- =====================================================
+-- INSERT : config
+-- =====================================================
+INSERT INTO config (valeur, date_insertion)
+VALUES
+(5, '2000-01-01 00:00:00');
+
+-- =====================================================
 -- INSERT : roles
 -- =====================================================
 INSERT INTO role (libelle)
@@ -342,3 +349,42 @@ INSERT INTO compte(id_utilisateur, solde)
 VALUES
 (3, 200000);
 
+-- =====================================================
+-- INSERT : historique_transaction (20 lignes)
+-- =====================================================
+
+-- Dépôts (numero_receveur = NULL, commission = 0)
+INSERT INTO historique_transaction (id_utilisateur, numero_receveur, id_type_operation, montant, frais, commission)
+VALUES
+(2, NULL, 1, 100000, 0, 0),
+(3, NULL, 1, 50000, 0, 0),
+(5, NULL, 1, 200000, 0, 0),
+(7, NULL, 1, 300000, 0, 0),
+(4, NULL, 1, 45000, 0, 0);
+
+-- Retraits (numero_receveur = '0', commission = 0)
+INSERT INTO historique_transaction (id_utilisateur, numero_receveur, id_type_operation, montant, frais, commission)
+VALUES
+(2, '0', 2, 20000, 200, 0),
+(4, '0', 2, 5000, 50, 0),
+(6, '0', 2, 100000, 800, 0),
+(8, '0', 2, 50000, 400, 0);
+
+-- Transferts vers un préfixe normal (039, 040) : commission = 0
+INSERT INTO historique_transaction (id_utilisateur, numero_receveur, id_type_operation, montant, frais, commission)
+VALUES
+(2, '0390000000', 3, 10000, 100, 0),
+(3, '0401234567', 3, 15000, 200, 0),
+(5, '0390000000', 3, 5000, 50, 0),
+(8, '0401234567', 3, 12000, 200, 0);
+
+-- Transferts vers un préfixe autre (031, 032, 033, 034, 037, 038) : commission = 5% du montant
+INSERT INTO historique_transaction (id_utilisateur, numero_receveur, id_type_operation, montant, frais, commission)
+VALUES
+(2, '0325555555', 3, 40000, 400, 2000),
+(3, '0311111111', 3, 60000, 800, 3000),
+(4, '0342222222', 3, 25000, 400, 1250),
+(6, '0334444444', 3, 100000, 1500, 5000),
+(7, '0376666666', 3, 8000, 100, 400),
+(2, '0383333333', 3, 70000, 800, 3500),
+(5, '0325555555', 3, 90000, 1500, 4500);

@@ -285,14 +285,44 @@ VALUES
 -- =====================================================
 
 -- Opérateur
-INSERT INTO utilisateur(numero,id_role)
+INSERT INTO utilisateur(numero, id_role)
 VALUES
-('0330000000',1);
+('0390000000', 1);
 
--- Client
-INSERT INTO utilisateur(numero,id_role)
+-- Client (préfixe normal)
+INSERT INTO utilisateur(numero, id_role)
 VALUES
-('0371234567',2);
+('0401234567', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0325555555', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0311111111', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0342222222', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0383333333', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0334444444', 2);
+
+-- Client (autre opérateur)
+INSERT INTO utilisateur(numero, id_role)
+VALUES
+('0376666666', 2);
 
 -- =====================================================
 -- COMPTES DE TEST
@@ -302,14 +332,6 @@ INSERT INTO compte(id_utilisateur,solde)
 VALUES
 (1,0),
 (2,500000);
-
-
-
--- Nouveau client
-INSERT INTO utilisateur(numero, id_role)
-VALUES
-('0345555555', 2);
-
 
 -- Création du compte associé
 INSERT INTO compte(id_utilisateur, solde)

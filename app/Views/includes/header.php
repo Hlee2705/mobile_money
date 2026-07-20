@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= isset($title) ? $title . ' — TanaPay' : 'TanaPay — Espace opérateur' ?></title>
+  <title><?= isset($title) ? $title . 'ValsMobile' : 'ValsMobile' ?></title>
   <link rel="stylesheet" href="<?= base_url('template/design-system.css') ?>">
 </head>
 

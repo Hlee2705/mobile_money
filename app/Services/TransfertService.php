@@ -20,6 +20,9 @@ class TransfertService
 
     protected TransfertValidation $validation;
 
+    protected FraisService $fraisService;
+
+
 
 
     public function __construct()
@@ -32,7 +35,11 @@ class TransfertService
         $this->historiqueModel = new HistoriqueTransaction();
 
         $this->validation = new TransfertValidation();
+
+        $this->fraisService = new FraisService();
+
     }
+
 
 
 
@@ -42,19 +49,24 @@ class TransfertService
         int $idUtilisateur,
         string $numeroReceveur,
         float $montant
-    ): array {
+    ): array
+    {
 
 
         // Validation montant
 
         $checkMontant =
-            $this->validation->validerMontant($montant);
+            $this->validation
+            ->validerMontant($montant);
 
 
-        if (!$checkMontant['success']) {
+
+        if(!$checkMontant['success']){
 
             return $checkMontant;
+
         }
+
 
 
 
@@ -62,13 +74,17 @@ class TransfertService
         // Validation numéro
 
         $checkNumero =
-            $this->validation->validerNumeroReceveur($numeroReceveur);
+            $this->validation
+            ->validerNumeroReceveur($numeroReceveur);
 
 
-        if (!$checkNumero['success']) {
+
+        if(!$checkNumero['success']){
 
             return $checkNumero;
+
         }
+
 
 
 
@@ -86,24 +102,17 @@ class TransfertService
 
 
 
-        if (!$compteExpediteur) {
+
+        if(!$compteExpediteur){
 
             return [
-                'success' => false,
-                'message' => 'Compte expéditeur introuvable'
+                'success'=>false,
+                'message'=>'Compte expéditeur introuvable'
             ];
+
         }
 
 
-
-
-        if ($compteExpediteur['solde'] < $montant) {
-
-            return [
-                'success' => false,
-                'message' => 'Solde insuffisant'
-            ];
-        }
 
 
 
@@ -121,13 +130,17 @@ class TransfertService
 
 
 
-        if (!$receveur) {
+
+        if(!$receveur){
 
             return [
-                'success' => false,
-                'message' => 'Receveur introuvable'
+                'success'=>false,
+                'message'=>'Receveur introuvable'
             ];
+
         }
+
+
 
 
 
@@ -145,38 +158,86 @@ class TransfertService
 
 
 
-        if (!$compteReceveur) {
+
+        if(!$compteReceveur){
 
             return [
-                'success' => false,
-                'message' => 'Compte receveur introuvable'
+                'success'=>false,
+                'message'=>'Compte receveur introuvable'
             ];
+
         }
 
 
 
 
 
-        // Retrait expéditeur
+
+
+        // Calcul frais transfert
+        // 3 = transfert
+
+        $frais =
+            $this->fraisService
+            ->calculerFrais(
+                $montant,
+                3
+            );
+
+
+
+
+
+        $totalDebit =
+            $montant + $frais;
+
+
+
+
+
+
+
+        // Vérification solde
+
+        if($compteExpediteur['solde'] < $totalDebit){
+
+            return [
+                'success'=>false,
+                'message'=>'Solde insuffisant'
+            ];
+
+        }
+
+
+
+
+
+
+
+        // Débit expéditeur
 
         $this->compteModel->update(
             $compteExpediteur['id'],
             [
-                'solde' => $compteExpediteur['solde'] - $montant
+                'solde'=>$compteExpediteur['solde'] - $totalDebit
             ]
         );
 
 
 
 
-        // Ajout receveur
+
+
+
+        // Crédit receveur
 
         $this->compteModel->update(
             $compteReceveur['id'],
             [
-                'solde' => $compteReceveur['solde'] + $montant
+                'solde'=>$compteReceveur['solde'] + $montant
             ]
         );
+
 
 
 
@@ -187,29 +248,36 @@ class TransfertService
 
         $this->historiqueModel->insert([
 
-            'id_utilisateur' => $idUtilisateur,
+            'id_utilisateur'=>$idUtilisateur,
 
-            'numero_receveur' => $numeroReceveur,
+            'numero_receveur'=>$numeroReceveur,
 
-            'id_type_operation' => 3,
+            'id_type_operation'=>3,
 
-            'montant' => $montant,
+            'montant'=>$montant,
 
-            'frais' => 0,
+            'frais'=>$frais,
 
-            'commission' => 0
+            'commission'=>0
 
         ]);
 
 
 
 
+
+
+
         return [
 
-            'success' => true,
+            'success'=>true,
 
-            'message' => 'Transfert effectué avec succès'
+            'message'=>'Transfert effectué avec succès',
+
+            'frais'=>$frais
 
         ];
+
     }
+
 }

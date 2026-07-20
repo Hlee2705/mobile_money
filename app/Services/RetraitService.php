@@ -4,7 +4,6 @@ namespace App\Services;
 
 
 use App\Models\Compte;
-use App\Models\Frais;
 use App\Models\HistoriqueTransaction;
 use App\Validations\RetraitValidation;
 
@@ -14,11 +13,11 @@ class RetraitService
 
     protected Compte $compteModel;
 
-    protected Frais $fraisModel;
-
     protected HistoriqueTransaction $historiqueModel;
 
     protected RetraitValidation $validation;
+
+    protected FraisService $fraisService;
 
 
 
@@ -27,11 +26,11 @@ class RetraitService
 
         $this->compteModel = new Compte();
 
-        $this->fraisModel = new Frais();
-
         $this->historiqueModel = new HistoriqueTransaction();
 
         $this->validation = new RetraitValidation();
+
+        $this->fraisService = new FraisService();
 
     }
 
@@ -42,11 +41,11 @@ class RetraitService
     public function effectuerRetrait(
         int $idUtilisateur,
         float $montant
-    ):array
+    ): array
     {
 
 
-        // Validation
+        // Validation montant
 
         $check =
             $this->validation->validerMontant($montant);
@@ -64,7 +63,6 @@ class RetraitService
 
 
         // Recherche compte
-
 
         $compte =
             $this->compteModel
@@ -89,53 +87,23 @@ class RetraitService
 
 
 
-
-        // Recherche frais
+        // Calcul frais retrait
+        // 2 = retrait
 
         $frais =
-            $this->fraisModel
-            ->select('frais.valeur')
-            ->join(
-                'tranche',
-                'tranche.id=frais.id_tranche'
-            )
-            ->where(
-                'tranche.min <=',
-                $montant
-            )
-            ->where(
-                'tranche.max >=',
-                $montant
-            )
-            ->where(
-                'id_type_operation',
+            $this->fraisService
+            ->calculerFrais(
+                $montant,
                 2
-            )
-            ->first();
+            );
 
 
 
 
-        if(!$frais){
 
-            return [
-                'success'=>false,
-                'message'=>'Frais introuvables'
-            ];
+        $totalDebit =
+            $montant + $frais;
 
-        }
-
-
-
-
-        $montantFrais =
-            $frais['valeur'];
-
-
-
-
-        $total =
-            $montant + $montantFrais;
 
 
 
@@ -143,8 +111,7 @@ class RetraitService
 
         // Vérification solde
 
-
-        if($compte['solde'] < $total){
+        if($compte['solde'] < $totalDebit){
 
             return [
                 'success'=>false,
@@ -157,11 +124,12 @@ class RetraitService
 
 
 
-        // Mise à jour solde
-
+        // Nouveau solde
 
         $nouveauSolde =
-            $compte['solde'] - $total;
+            $compte['solde'] - $totalDebit;
+
+
 
 
 
@@ -177,8 +145,8 @@ class RetraitService
 
 
 
-        // Historique
 
+        // Historique
 
         $this->historiqueModel->insert([
 
@@ -188,9 +156,12 @@ class RetraitService
 
             'montant'=>$montant,
 
-            'frais'=>$montantFrais
+            'frais'=>$frais,
+
+            'commission'=>0
 
         ]);
+
 
 
 
@@ -202,14 +173,13 @@ class RetraitService
 
             'message'=>'Retrait effectué avec succès',
 
-            'solde'=>$nouveauSolde
+            'solde'=>$nouveauSolde,
+
+            'frais'=>$frais
 
         ];
 
 
-
     }
-
-
 
 }

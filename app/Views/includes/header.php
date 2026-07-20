@@ -82,7 +82,7 @@
             <span class="nav-link__label">Liste des clients</span>
           </a>
         <?php endif; ?>
-        <a class="nav-link <?= $active === 'compte-solde' ? 'is-active' : '' ?>" href="<?= base_url('compte/solde') ?>">
+        <a class="nav-link <?= $active === 'compte-solde' ? 'is-active' : '' ?>" href="<?= base_url('solde') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <rect x="2.5" y="5" width="19" height="14" rx="2" />
             <path d="M2.5 9.5h19" />

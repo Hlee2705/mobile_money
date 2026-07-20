@@ -202,6 +202,59 @@ CREATE TABLE config (
 );
 
 -- =====================================================
+-- VUE : transferts vers un préfixe normal
+-- =====================================================
+CREATE VIEW vue_transfert_normal AS
+SELECT
+    h.id,
+    h.id_utilisateur,
+    u.numero AS numero_emetteur,
+    h.numero_receveur,
+    h.montant,
+    h.frais,
+    h.commission,
+    h.date_operation
+FROM historique_transaction h
+JOIN utilisateur u ON u.id = h.id_utilisateur
+JOIN prefixe p ON p.code = substr(h.numero_receveur, 1, 3)
+WHERE h.id_type_operation = 3
+AND p.type_prefixe = 'normal';
+
+-- =====================================================
+-- VUE : transferts vers un autre opérateur
+-- =====================================================
+CREATE VIEW vue_transfert_autre AS
+SELECT
+    h.id,
+    h.id_utilisateur,
+    u.numero AS numero_emetteur,
+    h.numero_receveur,
+    h.montant,
+    h.frais,
+    h.commission,
+    h.date_operation
+FROM historique_transaction h
+JOIN utilisateur u ON u.id = h.id_utilisateur
+JOIN prefixe p ON p.code = substr(h.numero_receveur, 1, 3)
+WHERE h.id_type_operation = 3
+AND p.type_prefixe = 'autre';
+
+-- =====================================================
+-- VUE : retraits
+-- =====================================================
+CREATE VIEW vue_retrait AS
+SELECT
+    h.id,
+    h.id_utilisateur,
+    u.numero AS numero_emetteur,
+    h.montant,
+    h.frais,
+    h.date_operation
+FROM historique_transaction h
+JOIN utilisateur u ON u.id = h.id_utilisateur
+WHERE h.id_type_operation = 2;
+
+-- =====================================================
 -- INSERT : roles
 -- =====================================================
 INSERT INTO role (libelle)

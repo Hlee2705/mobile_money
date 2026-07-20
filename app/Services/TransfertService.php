@@ -32,7 +32,6 @@ class TransfertService
         $this->historiqueModel = new HistoriqueTransaction();
 
         $this->validation = new TransfertValidation();
-
     }
 
 
@@ -43,8 +42,7 @@ class TransfertService
         int $idUtilisateur,
         string $numeroReceveur,
         float $montant
-    ): array
-    {
+    ): array {
 
 
         // Validation montant
@@ -53,10 +51,9 @@ class TransfertService
             $this->validation->validerMontant($montant);
 
 
-        if(!$checkMontant['success']){
+        if (!$checkMontant['success']) {
 
             return $checkMontant;
-
         }
 
 
@@ -68,10 +65,9 @@ class TransfertService
             $this->validation->validerNumeroReceveur($numeroReceveur);
 
 
-        if(!$checkNumero['success']){
+        if (!$checkNumero['success']) {
 
             return $checkNumero;
-
         }
 
 
@@ -90,25 +86,23 @@ class TransfertService
 
 
 
-        if(!$compteExpediteur){
+        if (!$compteExpediteur) {
 
             return [
-                'success'=>false,
-                'message'=>'Compte expéditeur introuvable'
+                'success' => false,
+                'message' => 'Compte expéditeur introuvable'
             ];
-
         }
 
 
 
 
-        if($compteExpediteur['solde'] < $montant){
+        if ($compteExpediteur['solde'] < $montant) {
 
             return [
-                'success'=>false,
-                'message'=>'Solde insuffisant'
+                'success' => false,
+                'message' => 'Solde insuffisant'
             ];
-
         }
 
 
@@ -127,13 +121,12 @@ class TransfertService
 
 
 
-        if(!$receveur){
+        if (!$receveur) {
 
             return [
-                'success'=>false,
-                'message'=>'Receveur introuvable'
+                'success' => false,
+                'message' => 'Receveur introuvable'
             ];
-
         }
 
 
@@ -152,13 +145,12 @@ class TransfertService
 
 
 
-        if(!$compteReceveur){
+        if (!$compteReceveur) {
 
             return [
-                'success'=>false,
-                'message'=>'Compte receveur introuvable'
+                'success' => false,
+                'message' => 'Compte receveur introuvable'
             ];
-
         }
 
 
@@ -170,7 +162,7 @@ class TransfertService
         $this->compteModel->update(
             $compteExpediteur['id'],
             [
-                'solde'=>$compteExpediteur['solde']-$montant
+                'solde' => $compteExpediteur['solde'] - $montant
             ]
         );
 
@@ -182,7 +174,7 @@ class TransfertService
         $this->compteModel->update(
             $compteReceveur['id'],
             [
-                'solde'=>$compteReceveur['solde']+$montant
+                'solde' => $compteReceveur['solde'] + $montant
             ]
         );
 
@@ -195,32 +187,29 @@ class TransfertService
 
         $this->historiqueModel->insert([
 
-            'id_utilisateur'=>$idUtilisateur,
+            'id_utilisateur' => $idUtilisateur,
 
-            'numero_receveur'=>$numeroReceveur,
+            'numero_receveur' => $numeroReceveur,
 
-            'id_type_operation'=>3,
+            'id_type_operation' => 3,
 
-            'montant'=>$montant,
+            'montant' => $montant,
 
-            'frais'=>0
+            'frais' => 0,
+
+            'commission' => 0
 
         ]);
 
 
 
 
-
         return [
 
-            'success'=>true,
+            'success' => true,
 
-            'message'=>'Transfert effectué avec succès'
+            'message' => 'Transfert effectué avec succès'
 
         ];
-
-
     }
-
-
 }

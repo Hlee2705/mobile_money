@@ -137,6 +137,10 @@ CREATE TABLE historique_transaction (
         ON DELETE RESTRICT
 );
 
+-- ajout de la colonne commission dans la table historique_transaction
+ALTER TABLE historique_transaction
+ADD COLUMN commission REAL NOT NULL DEFAULT 0;
+
 CREATE VIEW vue_frais_bareme AS
 
 SELECT

@@ -89,6 +89,7 @@
     + [] Dans la table prefixe, ajouter la colonne type_prefixe(normal/autre)
     + [] supprimer la colonne llibelle dans prefix
     + [] Créer la table config : id, valeur (pourcentage), date 
+    + [] Ajouter la colonne commission dans la table historique_transaction
 
 + [] Creer les classes modeles pour ces nouveaux tables : 
     + [] Prefixe : avec la nouvelle colonne id_operateur

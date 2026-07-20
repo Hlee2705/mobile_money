@@ -76,20 +76,20 @@
         </a>
 
         <div class="nav-section-label">Opération</div>
-        <a class="nav-link <?= $active === 'operation-depot' ? 'is-active' : '' ?>" href="<?= base_url('operation/depot') ?>">
+        <a class="nav-link <?= $active === 'operation-depot' ? 'is-active' : '' ?>" href="<?= base_url('depot') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M12 19V5M6 11l6-6 6 6" />
           </svg>
           <span class="nav-link__label">Faire un dépôt</span>
         </a>
-        <a class="nav-link <?= $active === 'operation-transfert' ? 'is-active' : '' ?>" href="<?= base_url('operation/transfert') ?>">
+        <a class="nav-link <?= $active === 'operation-transfert' ? 'is-active' : '' ?>" href="<?= base_url('transfert') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M3 7l4-4 4 4M7 3v13" />
             <path d="M21 17l-4 4-4-4M17 21V8" />
           </svg>
           <span class="nav-link__label">Faire un transfert</span>
         </a>
-        <a class="nav-link <?= $active === 'operation-retrait' ? 'is-active' : '' ?>" href="<?= base_url('operation/retrait') ?>">
+        <a class="nav-link <?= $active === 'operation-retrait' ? 'is-active' : '' ?>" href="<?= base_url('retrait') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M12 5v14M6 13l6 6 6-6" />
           </svg>

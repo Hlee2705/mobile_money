@@ -85,7 +85,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerTransfertsNormaux->links('default', 'custom') ?>
+            <?= $pagerTransfertsNormaux->links('transfertsNormaux', 'custom') ?>
         </div>
     </div>
 
@@ -120,7 +120,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerTransfertsAutres->links('default', 'custom') ?>
+            <?= $pagerTransfertsAutres->links('transfertsAutres', 'custom') ?>s
         </div>
     </div>
 
@@ -151,7 +151,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerRetraits->links('default', 'custom') ?>
+            <?= $pagerRetraits->links('retraits', 'custom') ?>
         </div>
     </div>
 

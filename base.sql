@@ -3,7 +3,14 @@ PRAGMA foreign_keys = OFF;
 -- =====================================================
 -- SUPPRESSION DES VUES
 -- =====================================================
+
 DROP VIEW IF EXISTS vue_frais_bareme;
+
+DROP VIEW IF EXISTS vue_transfert_normal;
+
+DROP VIEW IF EXISTS vue_transfert_autre;
+
+DROP VIEW IF EXISTS vue_retrait;
 
 -- =====================================================
 -- SUPPRESSION DES TABLES

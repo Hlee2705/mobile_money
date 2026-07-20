@@ -1,4 +1,4 @@
-<?= $this->include('header') ?>
+<?= $this->include('includes/header') ?>
 
 <div class="row row--between row--wrap" style="margin-bottom: var(--space-6);">
     <div>
@@ -85,7 +85,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerTransfertsNormaux->links('transfertsNormaux', 'pager/custom') ?>
+            <?= $pagerTransfertsNormaux->links('default', 'custom') ?>
         </div>
     </div>
 
@@ -120,7 +120,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerTransfertsAutres->links('transfertsAutres', 'pager/custom') ?>
+            <?= $pagerTransfertsAutres->links('default', 'custom') ?>
         </div>
     </div>
 
@@ -151,10 +151,10 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pagerRetraits->links('retraits', 'pager/custom') ?>
+            <?= $pagerRetraits->links('default', 'custom') ?>
         </div>
     </div>
 
 </div>
 
-<?= $this->include('footer') ?>
+<?= $this->include('includes/footer') ?>

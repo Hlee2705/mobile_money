@@ -6,15 +6,11 @@ use App\Models\Prefixe;
 use App\Models\Utilisateur;
 use App\Validations\AuthValidation;
 
-
 class AuthService
 {
-
     protected Prefixe $prefixeModel;
     protected Utilisateur $utilisateurModel;
     protected AuthValidation $validation;
-
-
 
     public function __construct()
     {
@@ -23,63 +19,65 @@ class AuthService
         $this->validation = new AuthValidation();
     }
 
-
-
-    public function login(string $numero)
+    public function login(string $numero): array
     {
-
-        // Validation format
-        $validation = $this->validation
-            ->validerNumero($numero);
-
+        /*
+         * Validation du numéro
+         */
+        $validation = $this->validation->validerNumero($numero);
 
         if (!$validation['success']) {
             return $validation;
         }
 
+        /*
+         * Vérification du préfixe
+         */
+        $codePrefixe = substr($numero, 0, 3);
 
-
-        // Vérification préfixe
         $prefixe = $this->prefixeModel
-            ->where(
-                'code',
-                substr($numero, 0, 3)
-            )
+            ->where('code', $codePrefixe)
             ->first();
 
-
-
         if (!$prefixe) {
-
             return [
                 'success' => false,
-                'message' => 'Préfixe non autorisé'
+                'message' => 'Préfixe inexistant'
             ];
         }
 
+        /*
+         * Seuls les préfixes "normal" peuvent se connecter
+         */
+        if ($prefixe['type_prefixe'] !== 'normal') {
+            return [
+                'success' => false,
+                'message' => 'Les numéros des autres opérateurs ne peuvent pas se connecter'
+            ];
+        }
 
-
-        // Recherche utilisateur
+        /*
+         * Recherche utilisateur
+         */
         $utilisateur = $this->utilisateurModel
             ->where('numero', $numero)
             ->first();
 
-
-
         if (!$utilisateur) {
-
             return [
                 'success' => false,
                 'message' => 'Utilisateur inexistant'
             ];
         }
 
-
+        /*
+         * Création de la session
+         */
         session()->set([
-            'logged_in' => true,
+            'logged_in'      => true,
             'id_utilisateur' => $utilisateur['id'],
-            'id_role' => $utilisateur['id_role'],
-            'numero' => $utilisateur['numero']
+            'id_role'        => $utilisateur['id_role'],
+            'numero'         => $utilisateur['numero']
         ]);
 
         return [

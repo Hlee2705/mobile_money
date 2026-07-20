@@ -38,7 +38,7 @@
 ## Cote operateur (yoann)
 + [] CRUD prefixe valable
     + [x] création 
-    + [] liste
+    + [x] liste
     + [] modification
     + [] suppression
 

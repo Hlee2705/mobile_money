@@ -13,9 +13,26 @@ class PrefixeController extends BaseController
         $this->prefixeService = new PrefixeService();
     }
 
+    public function index()
+    {
+        $data = [
+            'title' => 'Liste des préfixes',
+            'active' => 'prefixe-liste',
+            'prefixes' => $this->prefixeService->findAll()
+        ];
+
+        return view('prefixe/index', $data);
+    }
+
     public function create()
     {
-        return view('prefixe/create');
+        $data = [
+            'title' => 'Ajouter un nouveau préfixe',
+            'active' => 'prefixe-nouveau',
+            'prefixes' => $this->prefixeService->findAll()
+        ];
+
+        return view('prefixe/create', $data);
     }
 
     public function store()

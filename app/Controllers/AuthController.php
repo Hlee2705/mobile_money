@@ -6,7 +6,6 @@ use App\Services\AuthService;
 
 class AuthController extends BaseController
 {
-
     protected AuthService $authService;
 
 
@@ -22,24 +21,21 @@ class AuthController extends BaseController
     }
 
 
-
     public function login()
     {
-
         $numero = $this->request->getPost('numero');
 
 
         $result = $this->authService->login($numero);
 
 
-
         if (!$result['success']) {
 
             return redirect()
                 ->back()
+                ->withInput()
                 ->with('error', $result['message']);
         }
-
 
 
         return redirect()->to('/dashboard');

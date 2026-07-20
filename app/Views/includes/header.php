@@ -121,10 +121,10 @@
 
       <div class="sidebar__footer">
         <div class="sidebar__user row">
-          <div class="avatar avatar--dark"><?= $isOperateur ? (isset($userInitials) ? esc($userInitials) : 'RH') : 'CL' ?></div>
+          <div class="avatar avatar--dark"><?= $isOperateur ? (isset($userInitials) ? esc($userInitials) : 'OP') : 'CL' ?></div>
           <div>
-            <div class="sidebar__user-name"><?= $isOperateur ? (isset($userName) ? esc($userName) : 'Rina H.') : esc($numero) ?></div>
-            <div class="sidebar__user-role"><?= $isOperateur ? (isset($userRole) ? esc($userRole) : 'Agent guichet') : 'Client' ?></div>
+            <div class="sidebar__user-name"><?= $isOperateur ? (isset($userName) ? esc($userName) : 'ValsMobile') : esc($numero) ?></div>
+            <div class="sidebar__user-role"><?= $isOperateur ? (isset($userRole) ? esc($userRole) : 'Compte Operateur') : 'Client' ?></div>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ class Prefixe extends Model
 
     protected $allowedFields = [
         'code',
-        'libelle'
+        'type_prefixe'
     ];
 
     protected $useTimestamps = false;

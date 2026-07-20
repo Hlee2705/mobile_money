@@ -120,4 +120,16 @@ class PrefixeService
             'message' => 'Préfixe supprimé avec succès.'
         ];
     }
+
+    public function estUnAutreNumero(string $numero): bool
+    {
+        $code = substr($numero, 0, 3);
+
+        $prefixe = $this->prefixeModel
+            ->where('type_prefixe', 'normal')
+            ->where('code', $code)
+            ->first();
+
+        return $prefixe === null;
+    }
 }

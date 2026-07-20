@@ -24,6 +24,14 @@
       </div>
 
       <nav>
+        <div class="nav-section-label">Tableau de bord</div>
+        <a class="nav-link <?= $active === 'gains' ? 'is-active' : '' ?>" href="<?= base_url('gains') ?>">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="8" cy="15" r="4" />
+            <circle cx="15" cy="9" r="4" />
+          </svg>
+          <span class="nav-link__label">Gains</span>
+        </a>
         <div class="nav-section-label">Préfixe</div>
         <a class="nav-link <?= $active === 'prefixe-nouveau' ? 'is-active' : '' ?>" href="<?= base_url('prefixe/create') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

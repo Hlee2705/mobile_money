@@ -9,8 +9,17 @@
 </head>
 
 <body>
+  <?php
 
-  <?php $active = $active ?? ''; ?>
+  if (!session()->get('logged_in')) {
+    return redirect()->to('/login');
+  }
+
+  $active = $active ?? '';
+  $idRole = session()->get('id_role');
+  $numero = session()->get('numero');
+  $isOperateur = ($idRole === 1);
+  ?>
 
   <div class="app-shell">
 
@@ -19,55 +28,60 @@
         <div class="sidebar__brand-mark">VM</div>
         <div>
           <div class="sidebar__brand-name">ValsMobile</div>
-          <div class="sidebar__brand-sub">Espace opérateur</div>
+          <div class="sidebar__brand-sub"><?= $isOperateur ? 'Espace opérateur' : 'Espace client' ?></div>
         </div>
       </div>
 
       <nav>
-        <div class="nav-section-label">Tableau de bord</div>
-        <a class="nav-link <?= $active === 'gains' ? 'is-active' : '' ?>" href="<?= base_url('gains') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="8" cy="15" r="4" />
-            <circle cx="15" cy="9" r="4" />
-          </svg>
-          <span class="nav-link__label">Gains</span>
-        </a>
-        <div class="nav-section-label">Préfixe</div>
-        <a class="nav-link <?= $active === 'prefixe-nouveau' ? 'is-active' : '' ?>" href="<?= base_url('prefixe/create') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-          <span class="nav-link__label">Nouveau</span>
-        </a>
-        <a class="nav-link <?= $active === 'prefixe-liste' ? 'is-active' : '' ?>" href="<?= base_url('prefixes') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M4 6h16M4 12h16M4 18h10" />
-          </svg>
-          <span class="nav-link__label">Liste</span>
-        </a>
+        <?php if ($isOperateur): ?>
+          <div class="nav-section-label">Tableau de bord</div>
+          <a class="nav-link <?= $active === 'gains' ? 'is-active' : '' ?>" href="<?= base_url('gains') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="8" cy="15" r="4" />
+              <circle cx="15" cy="9" r="4" />
+            </svg>
+            <span class="nav-link__label">Gains</span>
+          </a>
 
-        <div class="nav-section-label">Frais</div>
-        <a class="nav-link <?= $active === 'frais-nouveau' ? 'is-active' : '' ?>" href="<?= base_url('frais/create') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-          <span class="nav-link__label">Nouveau</span>
-        </a>
-        <a class="nav-link <?= $active === 'frais-baremes' ? 'is-active' : '' ?>" href="<?= base_url('frais') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M4 19V9M12 19V5M20 19v-7" />
-          </svg>
-          <span class="nav-link__label">Barèmes</span>
-        </a>
+          <div class="nav-section-label">Préfixe</div>
+          <a class="nav-link <?= $active === 'prefixe-nouveau' ? 'is-active' : '' ?>" href="<?= base_url('prefixe/create') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            <span class="nav-link__label">Nouveau</span>
+          </a>
+          <a class="nav-link <?= $active === 'prefixe-liste' ? 'is-active' : '' ?>" href="<?= base_url('prefixes') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 6h16M4 12h16M4 18h10" />
+            </svg>
+            <span class="nav-link__label">Liste</span>
+          </a>
+
+          <div class="nav-section-label">Frais</div>
+          <a class="nav-link <?= $active === 'frais-nouveau' ? 'is-active' : '' ?>" href="<?= base_url('frais/create') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            <span class="nav-link__label">Nouveau</span>
+          </a>
+          <a class="nav-link <?= $active === 'frais-baremes' ? 'is-active' : '' ?>" href="<?= base_url('frais') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 19V9M12 19V5M20 19v-7" />
+            </svg>
+            <span class="nav-link__label">Barèmes</span>
+          </a>
+        <?php endif; ?>
 
         <div class="nav-section-label">Compte</div>
-        <a class="nav-link <?= $active === 'compte-clients' ? 'is-active' : '' ?>" href="<?= base_url('compte/clients') ?>">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="8" r="3.2" />
-            <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5" />
-          </svg>
-          <span class="nav-link__label">Liste des clients</span>
-        </a>
+        <?php if ($isOperateur): ?>
+          <a class="nav-link <?= $active === 'compte-clients' ? 'is-active' : '' ?>" href="<?= base_url('compte/clients') ?>">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="8" r="3.2" />
+              <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5" />
+            </svg>
+            <span class="nav-link__label">Liste des clients</span>
+          </a>
+        <?php endif; ?>
         <a class="nav-link <?= $active === 'compte-solde' ? 'is-active' : '' ?>" href="<?= base_url('compte/solde') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <rect x="2.5" y="5" width="19" height="14" rx="2" />
@@ -107,10 +121,10 @@
 
       <div class="sidebar__footer">
         <div class="sidebar__user row">
-          <div class="avatar avatar--dark"><?= isset($userInitials) ? esc($userInitials) : 'RH' ?></div>
+          <div class="avatar avatar--dark"><?= $isOperateur ? (isset($userInitials) ? esc($userInitials) : 'OP') : 'CL' ?></div>
           <div>
-            <div class="sidebar__user-name"><?= isset($userName) ? esc($userName) : 'Rina H.' ?></div>
-            <div class="sidebar__user-role"><?= isset($userRole) ? esc($userRole) : 'Agent guichet' ?></div>
+            <div class="sidebar__user-name"><?= $isOperateur ? (isset($userName) ? esc($userName) : 'ValsMobile') : esc($numero) ?></div>
+            <div class="sidebar__user-role"><?= $isOperateur ? (isset($userRole) ? esc($userRole) : 'Compte Operateur') : 'Client' ?></div>
           </div>
         </div>
       </div>
@@ -120,7 +134,7 @@
 
       <div class="topbar">
         <div class="row" style="gap:10px;">
-          <div class="sidebar__brand-mark" style="width:30px;height:30px;font-size:12px;">TP</div>
+          <div class="sidebar__brand-mark" style="width:30px;height:30px;font-size:12px;">VM</div>
           <strong style="color:#fff;font-family:var(--font-display);font-size:14px;">ValsMobile</strong>
         </div>
         <div class="topbar__icons">

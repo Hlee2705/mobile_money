@@ -122,3 +122,13 @@ bonus: mahavita page afaka mi-modifier an'ilay izy
 epargne : pour chaquge client misfidy % epargnena 
 creer page pour chqua client oh 20% epargnena = base
 raha misy transfert tonga de ny 20 mankany amin epargne de ny 80 mankany amin compte
+
+### TODO ALEA 2
++ [] base 
+    + [] ajouter une table epargne : id, valeur 
+
++ [] metier : 
+    + [] creer un model pour epargne 
+    + [] creer un service pour récupérer la valeur de l'epargne saisi par le client (EpargneService)
+    + [] Utiliser EpargneService dans TransfertService pour faire le calcul
+    + [] calcul pour recuperer le pourcentage à inserer dans la table epargne et le reste vers le compte du receveur 

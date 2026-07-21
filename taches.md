@@ -110,11 +110,11 @@ bonus: mahavita page afaka mi-modifier an'ilay izy
 ### TODO ALEA 1
 + [x] base
     + [x] ajouter une table promotion: id, valeur
-+ [] metier
-    + [] creer un model pour la configuration de la promotion
-    + [] creer un service pour avoir la valeur de la configuration de la promotion
-    + [] injecter PromotionService dans TranfertService
-    + [] on a deja une fonction pour verifier si un numero est un autre operateur, utiliser cette methode de thype boolean pour modifier la valeur du frais
++ [x] metier
+    + [x] creer un model pour la configuration de la promotion
+    + [x] creer un service pour avoir la valeur de la configuration de la promotion
+    + [x] injecter PromotionService dans TranfertService
+    + [x] on a deja une fonction pour verifier si un numero est un autre operateur, utiliser cette methode de thype boolean pour modifier la valeur du frais
 
 + [] bonus
     + [] creer une page pour modifier la valeur de la configuration de la promotion

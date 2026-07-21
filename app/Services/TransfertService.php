@@ -25,6 +25,10 @@ class TransfertService
 
     protected FraisService $fraisService;
 
+    protected PromotionConfigService $promotionConfigService;
+
+    protected PrefixeService $prefixeService;
+
 
 
     public function __construct()
@@ -41,6 +45,10 @@ class TransfertService
         $this->validation = new TransfertValidation();
 
         $this->fraisService = new FraisService();
+
+        $this->promotionConfigService = new PromotionConfigService();
+
+        $this->prefixeService = new PrefixeService();
     }
 
 
@@ -221,9 +229,10 @@ class TransfertService
                 3
             );
 
-
-
-
+        if (!($this->prefixeService->estUnAutreNumero($numeroReceveur))) {
+            $promotion = $this->promotionConfigService->findAll()[0]['valeur'];
+            $fraisTransfert -= (($fraisTransfert * $promotion) / 100);
+        }
 
 
         /*
@@ -370,12 +379,6 @@ class TransfertService
 
 
         ]);
-
-
-
-
-
-
 
         return [
 

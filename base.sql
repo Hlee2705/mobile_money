@@ -215,7 +215,7 @@ CREATE TABLE config (
 CREATE TABLE promotion_config (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    valeur REAL NOT NULL,
+    valeur REAL NOT NULL
 );
 
 -- =====================================================

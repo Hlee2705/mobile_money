@@ -11,4 +11,13 @@ class EpargneService{
     {
         $this->epargneModel = new Epargne();
     }
+
+    public function findAll(): array
+    {
+        return $this->epargneModel->findAll();
+    }
+
+    // public function calculerEpargne(int $idUtilisateur, float $pourcentageEpargne, $){
+
+    // }
 }

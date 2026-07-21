@@ -126,6 +126,7 @@ raha misy transfert tonga de ny 20 mankany amin epargne de ny 80 mankany amin co
 ### TODO ALEA 2
 + [+] base 
     + [+] ajouter une table epargne : id, valeur_epargne, id_utilisateur
+    
 
 + [] metier : 
     + [+] creer un model pour epargne 

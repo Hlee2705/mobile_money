@@ -89,7 +89,7 @@
           </svg>
           <span class="nav-link__label">Solde</span>
         </a>
-        <a class="nav-link <?= $active === 'compte-historique' ? 'is-active' : '' ?>" href="<?= base_url('compte/historique') ?>">
+        <a class="nav-link <?= $active === 'compte-historique' ? 'is-active' : '' ?>" href="<?= base_url('historique') ?>">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M12 8v5l3 2" />
             <circle cx="12" cy="12" r="9" />

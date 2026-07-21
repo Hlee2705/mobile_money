@@ -42,4 +42,17 @@ class CompteController extends BaseController
             ]
         );
     }
+
+    public function historique(){
+        $idUtilisateur = session()->get('id_utilisateur');
+
+        $result = $this->service->getHistorique($idUtilisateur);
+
+        return view(
+            'client/historique',
+            [
+                'historique' => $result['historique']
+            ]
+        );
+    }
 }

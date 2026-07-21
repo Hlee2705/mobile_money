@@ -58,6 +58,12 @@ $routes->group('', function ($routes) {
         'CompteController::listeClients'
     );
 
+    // historique
+    $routes->get(
+        '/historique',
+        'CompteController::historique'
+    );
+
     // Logout
     $routes->get('/logout', 'AuthController::logout');
 });

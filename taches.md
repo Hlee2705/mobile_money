@@ -102,3 +102,19 @@
 ### Cote client (valisoa)
 + [] inclure frais de retrait lors de l'envoi
 + [] envoi multiple vers plusieurs numéros 
+
+promotion pourcentage frais transfert meme operateur;
+pourcentage tsy maintsy ao anaty base;
+bonus: mahavita page afaka mi-modifier an'ilay izy
+---
+### TODO ALEA 1
++ [x] base
+    + [x] ajouter une table promotion: id, valeur
++ [] metier
+    + [] creer un model pour la configuration de la promotion
+    + [] creer un service pour avoir la valeur de la configuration de la promotion
+    + [] injecter PromotionService dans TranfertService
+    + [] on a deja une fonction pour verifier si un numero est un autre operateur, utiliser cette methode de thype boolean pour modifier la valeur du frais
+
++ [] bonus
+    + [] creer une page pour modifier la valeur de la configuration de la promotion

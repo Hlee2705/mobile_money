@@ -212,6 +212,12 @@ CREATE TABLE config (
     date_insertion TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE promotion_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    valeur REAL NOT NULL,
+);
+
 -- =====================================================
 -- VUE : transferts vers un préfixe normal
 -- =====================================================
@@ -270,6 +276,10 @@ WHERE h.id_type_operation = 2;
 INSERT INTO config (valeur, date_insertion)
 VALUES
 (5, '2000-01-01 00:00:00');
+
+INSERT INTO promotion_config (valeur)
+VALUES
+(10);
 
 -- =====================================================
 -- INSERT : roles

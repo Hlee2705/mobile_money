@@ -33,6 +33,8 @@ DROP TABLE IF EXISTS prefixe;
 
 DROP TABLE IF EXISTS role;
 
+DROP TABLE IF EXISTS promotion_config;
+
 -- Activation obligatoire des clés étrangères sur SQLite
 PRAGMA foreign_keys = ON;
 
@@ -216,6 +218,18 @@ CREATE TABLE promotion_config (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     valeur REAL NOT NULL
+);
+
+CREATE TABLE epargne (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    valeur_epargne REAL NOT NULL DEFAULT 0,
+
+    id_utilisateur INTEGER NOT NULL UNIQUE,
+
+    FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateur(id)
+        ON DELETE CASCADE
 );
 
 -- =====================================================

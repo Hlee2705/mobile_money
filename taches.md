@@ -124,11 +124,11 @@ creer page pour chqua client oh 20% epargnena = base
 raha misy transfert tonga de ny 20 mankany amin epargne de ny 80 mankany amin compte
 
 ### TODO ALEA 2
-+ [] base 
-    + [] ajouter une table epargne : id, valeur 
++ [+] base 
+    + [+] ajouter une table epargne : id, valeur_epargne, id_utilisateur
 
 + [] metier : 
-    + [] creer un model pour epargne 
-    + [] creer un service pour récupérer la valeur de l'epargne saisi par le client (EpargneService)
+    + [+] creer un model pour epargne 
+    + [] creer un service pour récupérer le pourcentage saisi par le client(EpargneService)
     + [] Utiliser EpargneService dans TransfertService pour faire le calcul
-    + [] calcul pour recuperer le pourcentage à inserer dans la table epargne et le reste vers le compte du receveur 
+    + [] utiliser ce pourcentage pour faire le calcul de l'epargne et calcul du reste vers le compte du receveur 

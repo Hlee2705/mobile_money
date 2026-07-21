@@ -394,4 +394,220 @@ class TransfertService
 
         ];
     }
+
+    public function effectuerTransfertMultiple(
+        int $idUtilisateur,
+        array $numerosReceveurs,
+        float $montantTotal,
+        bool $inclureFraisRetrait = false
+    ): array {
+
+        /*
+     * Vérification liste vide
+     */
+        if (empty($numerosReceveurs)) {
+
+            return [
+                'success' => false,
+                'message' => 'Aucun numéro saisi'
+            ];
+        }
+
+
+        /*
+     * Division du montant
+     */
+        $montantParPersonne =
+            $montantTotal / count($numerosReceveurs);
+
+
+
+        /*
+     * Calcul du coût total
+     */
+        $totalDebit = 0;
+
+        foreach ($numerosReceveurs as $numero) {
+
+            $prefixe = $this->prefixeModel
+                ->where(
+                    'code',
+                    substr($numero, 0, 3)
+                )
+                ->first();
+
+            if (!$prefixe) {
+
+                return [
+                    'success' => false,
+                    'message' => 'Préfixe inconnu : ' . $numero
+                ];
+            }
+
+            /*
+         * Seulement même opérateur
+         */
+            if ($prefixe['type_prefixe'] != 'normal') {
+
+                return [
+                    'success' => false,
+                    'message' => 'Tous les numéros doivent appartenir au même opérateur'
+                ];
+            }
+
+            $fraisTransfert =
+                $this->fraisService
+                ->calculerFrais(
+                    $montantParPersonne,
+                    3
+                );
+
+            $fraisRetrait = 0;
+
+            if ($inclureFraisRetrait) {
+
+                $fraisRetrait =
+                    $this->fraisService
+                    ->calculerFrais(
+                        $montantParPersonne,
+                        2
+                    );
+            }
+
+            $totalDebit +=
+                $montantParPersonne
+                + $fraisTransfert
+                + $fraisRetrait;
+        }
+
+
+
+        /*
+     * Vérification solde
+     */
+        $compteExpediteur =
+            $this->compteModel
+            ->where(
+                'id_utilisateur',
+                $idUtilisateur
+            )
+            ->first();
+
+        if (!$compteExpediteur) {
+
+            return [
+                'success' => false,
+                'message' => 'Compte expéditeur introuvable'
+            ];
+        }
+
+        if ($compteExpediteur['solde'] < $totalDebit) {
+
+            return [
+                'success' => false,
+                'message' => 'Solde insuffisant'
+            ];
+        }
+
+
+
+        /*
+     * Débit unique
+     */
+        $this->compteModel->update(
+
+            $compteExpediteur['id'],
+
+            [
+                'solde' =>
+                $compteExpediteur['solde']
+                    - $totalDebit
+            ]
+
+        );
+
+
+
+        /*
+     * Crédit des receveurs
+     */
+        foreach ($numerosReceveurs as $numero) {
+
+            $receveur =
+                $this->utilisateurModel
+                ->where(
+                    'numero',
+                    $numero
+                )
+                ->first();
+
+            if (!$receveur) {
+                continue;
+            }
+
+            $compteReceveur =
+                $this->compteModel
+                ->where(
+                    'id_utilisateur',
+                    $receveur['id']
+                )
+                ->first();
+
+            $this->compteModel->update(
+
+                $compteReceveur['id'],
+
+                [
+                    'solde' =>
+                    $compteReceveur['solde']
+                        + $montantParPersonne
+                ]
+
+            );
+
+            $fraisTransfert =
+                $this->fraisService
+                ->calculerFrais(
+                    $montantParPersonne,
+                    3
+                );
+
+            $fraisRetrait = 0;
+
+            if ($inclureFraisRetrait) {
+
+                $fraisRetrait =
+                    $this->fraisService
+                    ->calculerFrais(
+                        $montantParPersonne,
+                        2
+                    );
+            }
+
+            $this->historiqueModel->insert([
+
+                'id_utilisateur' => $idUtilisateur,
+
+                'numero_receveur' => $numero,
+
+                'id_type_operation' => 3,
+
+                'montant' => $montantParPersonne,
+
+                'frais' => $fraisTransfert + $fraisRetrait,
+
+                'commission' => 0
+
+            ]);
+        }
+
+
+        return [
+
+            'success' => true,
+
+            'message' => 'Transfert multiple effectué avec succès'
+
+        ];
+    }
 }

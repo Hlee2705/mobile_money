@@ -123,4 +123,64 @@ class TransfertController extends BaseController
                 $result['message']
             );
     }
+
+    public function multiple()
+    {
+        return view('client/transfert');
+    }
+
+    public function effectuerMultiple()
+    {
+
+        $numeros = preg_split(
+            '/\r\n|\r|\n/',
+            trim(
+                $this->request->getPost('numeros')
+            )
+        );
+
+        $numeros = array_map('trim', $numeros);
+
+        $numeros = array_filter($numeros);
+
+        $montant =
+            (float)$this->request
+                ->getPost('montant');
+
+        $inclureFraisRetrait =
+            $this->request
+            ->getPost('inclure_frais_retrait')
+            ? true
+            : false;
+
+        $idUtilisateur =
+            session()->get('id_utilisateur');
+
+        $result =
+            $this->service
+            ->effectuerTransfertMultiple(
+                $idUtilisateur,
+                $numeros,
+                $montant,
+                $inclureFraisRetrait
+            );
+
+        if (!$result['success']) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    $result['message']
+                );
+        }
+
+        return redirect()
+            ->to('/transfert-multiple')
+            ->with(
+                'success',
+                $result['message']
+            );
+    }
 }

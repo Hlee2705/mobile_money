@@ -118,3 +118,7 @@ bonus: mahavita page afaka mi-modifier an'ilay izy
 
 + [] bonus
     + [] creer une page pour modifier la valeur de la configuration de la promotion
+
+epargne : pour chaquge client misfidy % epargnena 
+creer page pour chqua client oh 20% epargnena = base
+raha misy transfert tonga de ny 20 mankany amin epargne de ny 80 mankany amin compte

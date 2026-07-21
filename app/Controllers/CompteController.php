@@ -29,4 +29,17 @@ class CompteController extends BaseController
             'solde' => $result['solde']
         ]);
     }
+
+    public function listeClients()
+    {
+
+        $result = $this->service->getListeClients();
+
+        return view(
+            'client/listeClients',
+            [
+                'clients' => $result['clients']
+            ]
+        );
+    }
 }

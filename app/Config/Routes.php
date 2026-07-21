@@ -52,6 +52,12 @@ $routes->group('', function ($routes) {
     // Compte
     $routes->get('/solde', 'CompteController::solde');
 
+    // liste des clients
+    $routes->get(
+        '/clients',
+        'CompteController::listeClients'
+    );
+
     // Logout
     $routes->get('/logout', 'AuthController::logout');
 });
@@ -62,6 +68,9 @@ $routes->get('/prefixes', 'PrefixeController::index');
 
 // Eto ny routage momba ny frais sy tranche
 $routes->get('/frais', 'FraisController::index');
+<<<<<<< HEAD
 
 // Eto ny routage momba ny gains
 $routes->get('/gains', 'GainsController::index');
+=======
+>>>>>>> dev_client
